@@ -1,4 +1,5 @@
 # 一个轮播图组件
+**[点击查看](//www.lkg028.cn/demo/slider/))**运行效果
 #### HTML结构
 
 ```html
@@ -33,8 +34,6 @@
 4. 容器宽度变化时，实例会自动调整，使其可以继续运行
 
 #### 使用方式
-
-代码  	&nbsp;&nbsp;&nbsp;&nbsp;   [slider.js](./demo/slider/slider.js)  &nbsp;&nbsp;&nbsp;&nbsp;  	 [slider.css](./demo/slider/slider.css) 
 
 ```javascript
 new Slider({
