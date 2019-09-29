@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>测试dom</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="slider.css">
+    <style>
+      .container {
+        position: relative;
+        width: 80%;
+        margin: 30px auto;
+      }
+      .slider-item > div {
+        height: 500px;
+        line-height: 500px;
+        font-size: 60px;
+        text-align: center;
+        color: #3d3b4f;
+      }
+
+    </style>
+    <script src="slider.js"></script>
+    <script>
+      window.addEventListener('load', ()=>{
+        let slider = new Slider({
+          slider: document.querySelector('.slider'),
+          pagination: document.querySelector('.pagination'),
+          autoPlay: true,
+          autoPlayDuration: 3000,
+          transitionDuration: 500
+        })
+        window.slider = slider;
+      }, false)
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="slider">
+        <ul class="slider-item-group">
+          <li class="slider-item"><div style="background-color: #e9e7ef">Item-0</div></li>
+          <li class="slider-item"><div style="background-color: #d6ecf0">Item-1</div></li>
+          <li class="slider-item"><div style="background-color: #f2ecde">Item-2</div></li>
+        </ul>
+        <div class="pagination">
+          <span></span>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+
+    </div>
+    <!-- <div class="another">这是另一段落</div> -->
+  </body>
+</html>

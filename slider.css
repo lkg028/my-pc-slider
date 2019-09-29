@@ -1,0 +1,51 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+ol {
+  list-style-type: none;
+}
+
+/* slider组件的样式 */
+.slider {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+}
+.slider-item-group {
+  white-space: nowrap;
+  font-size: 0;
+  transition-property: margin-left;
+  transition-timing-function: ease-in;
+  transform: translateZ(0);
+}
+.slider-item {
+  overflow: hidden;
+  display: inline-block;
+  box-sizing: border-box;
+  vertical-align: top;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: initial;
+  cursor: pointer;
+}
+.pagination {
+  position: absolute;
+  width: 100%;
+  bottom: 10px;
+  text-align: center;
+}
+.pagination > span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  margin: 8px;
+  background-color: rgba(0, 0, 0, .4);
+}
+.pagination > span.active {
+  background-color: rgba(255, 255, 255, .8)
+}
