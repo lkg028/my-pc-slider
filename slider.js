@@ -190,9 +190,13 @@ class Slider {
     this.itemGroup.style.marginLeft = startMargin + this.deltaX + 'px';
   }
   _dragEnd () {
-    if (!this.mouseDraging || !this.dragStartX) return;
+    if (!this.mouseDraging || !this.dragStartX) {
+      this.mouseDraging = false;
+      return;
+    }
     // 关闭拖拽
     this.mouseDraging = false;
+    // 初始化开始值（这个值也当开关用）
     this.dragStartX = 0;
     //  超过阈值直接跳转
     this.itemGroup.style.transitionDuration = this.transitionDuration + 'ms';
