@@ -17,7 +17,7 @@ class Slider {
     this._intervalId = null;
 
     //  拖拽相关
-    this.mouseDraging = false;
+    this.dragStartKey = false;
     this.dragStartX = 0;
     this.dragEndX = 0;
     this.deltaX = 0;
@@ -37,11 +37,12 @@ class Slider {
         lastEle = this.itemGroup.lastElementChild;
     // 设置项目容器的宽度(多出两个宽度，用于前后多复制出的节点)
     this.itemGroup.style.width = this.width * (this.length + 2) + 'px';
-
+    // 设置transfrom,开启硬件加速
+    this.itemGroup.style.transform = 'translateZ(0)';
     // 复制前后两节点，放在相反位置
     this.itemGroup.insertBefore(lastEle.cloneNode(true), firstEle);
     this.itemGroup.appendChild(firstEle.cloneNode(true));
-    
+
     // 设置项目的宽度
     [...this.itemGroup.children].forEach((item, idx) => {
       item.style.width = this.width + 'px';
@@ -58,11 +59,19 @@ class Slider {
 
     //  是否设置自动播放
     this.autoPlayInit(this.autoPlay);
-    //  增加鼠标拖拽事件
-    this.itemGroup.addEventListener('mousedown', this._dragStart.bind(this), false);
-    this.itemGroup.addEventListener('mousemove', this._dragMove.bind(this), false);
-    this.itemGroup.addEventListener('mouseup', this._dragEnd.bind(this), false);
-    this.itemGroup.addEventListener('mouseleave', this._dragEnd.bind(this), false);
+    //  增加鼠标/触摸拖拽事件
+    if ('ontouchstart' in document.body) {
+      // 有触摸事件
+      this.itemGroup.addEventListener('touchstart', this._dragStart.bind(this), false);
+      this.itemGroup.addEventListener('touchmove', this._dragMove.bind(this), false);
+      this.itemGroup.addEventListener('touchend', this._dragEnd.bind(this), false);
+    } else {
+      // 没有触摸事件，使用鼠标事件
+      this.itemGroup.addEventListener('mousedown', this._dragStart.bind(this), false);
+      this.itemGroup.addEventListener('mousemove', this._dragMove.bind(this), false);
+      this.itemGroup.addEventListener('mouseup', this._dragEnd.bind(this), false);
+      this.itemGroup.addEventListener('mouseleave', this._dragEnd.bind(this), false);
+    }
     window.addEventListener('resize', this._resize.bind(this), true);
   }
 
@@ -125,7 +134,7 @@ class Slider {
           this.pre();
           idx++;
         }
-      } 
+      }
     }
   }
   //  翻到下一页
@@ -172,16 +181,17 @@ class Slider {
 
   //  拖拽相关的方法
   _dragStart (e) {
-    this.mouseDraging = true;
+    this.dragStartKey = true;
     e.preventDefault();
   }
   _dragMove (e) {
-    if (!this.mouseDraging) return;
+    if (!this.dragStartKey) return;
     let startMargin = -this.width * (this.activeIdx + 1);
+    let screenX = e.screenX ? e.screenX : e.changedTouches[0].screenX;
     if (!this.dragStartX) {
-      this.dragStartX = e.screenX;
+      this.dragStartX = screenX;
     }
-    this.deltaX = e.screenX - this.dragStartX;
+    this.deltaX = screenX - this.dragStartX;
     console.log(this.deltaX);
     // 关闭自动播放
     this.autoPlayInit(false);
@@ -190,12 +200,12 @@ class Slider {
     this.itemGroup.style.marginLeft = startMargin + this.deltaX + 'px';
   }
   _dragEnd () {
-    if (!this.mouseDraging || !this.dragStartX) {
-      this.mouseDraging = false;
+    if (!this.dragStartKey || !this.dragStartX) {
+      this.dragStartKey = false;
       return;
     }
     // 关闭拖拽
-    this.mouseDraging = false;
+    this.dragStartKey = false;
     // 初始化开始值（这个值也当开关用）
     this.dragStartX = 0;
     //  超过阈值直接跳转
@@ -231,6 +241,7 @@ class Slider {
     }, 0)
   }
 }
-
+// 导出模块
+export default Slider
 
 
